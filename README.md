@@ -1,65 +1,141 @@
 # HROne Employee Attendance & Analytics API
 
-A FastAPI application for employee management, attendance tracking, manual attendance corrections, and MongoDB-based analytics.
+A REST API for employee attendance tracking and workforce analytics, built with **Python, FastAPI, and MongoDB**.
 
-## Requirements
+## Overview
 
-- Python 3.10+
-- MongoDB 6.0 or newer
-- Dependencies listed in `requirements.txt`
+This project provides APIs for managing employee records, recording attendance, calculating working hours, and generating attendance analytics. It includes validation, conflict handling, database indexes, and automated tests.
 
-## Setup
+## Features
 
-Create and activate a virtual environment, then install dependencies.
+- Employee and attendance management
+- Punch-in and punch-out workflows
+- Shift-aware attendance dates, including overnight shifts
+- Late-arrival and overtime calculations
+- Work-hour and half-day calculations
+- Employee monthly attendance reports
+- Department-level attendance summaries and trends
+- Late-arrival leaderboard with tie handling
+- Paginated and filtered API responses
+- MongoDB aggregation pipelines for analytics
+- Database index analysis through explain endpoints
+- Request validation and appropriate HTTP error responses
 
-**Windows PowerShell:**
+## Tech Stack
+
+- **Language:** Python
+- **API framework:** FastAPI
+- **Database:** MongoDB Atlas
+- **Validation:** Pydantic
+- **Testing:** Pytest
+- **API documentation:** OpenAPI / Swagger UI
+- **Version control:** Git and GitHub
+
+## Project Structure
+
+```text
+.
+├── app/
+│   ├── __init__.py
+│   └── main.py
+├── sample_data/
+│   ├── attendance_logs.json
+│   └── employees.json
+├── tests/
+│   ├── test_api.py
+│   └── test_calculations.py
+├── .gitignore
+├── DATA_MODEL.md
+├── DECISIONS.md
+├── PROBLEM_STATEMENT.docx
+├── REVIEW.md
+├── openapi.yaml
+├── requirements.txt
+└── sample_seed.py
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.11 or a compatible version supported by the dependencies
+- MongoDB Atlas account or a reachable MongoDB instance
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/vishnuvardhanreddytavutu/hrone-employee-attendance-api.git
+cd hrone-employee-attendance-api
+```
+
+### 2. Create and activate a virtual environment
+
+Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
 ```
 
-Create a `.env` file using `.env.example` as a reference, and configure `MONGO_URI` and `MONGO_DB`. Keep `.env` private; never commit credentials.
+### 3. Install dependencies
 
-## Run
-
-```powershell
-uvicorn app.main:app --port 8000
+```bash
+python -m pip install -r requirements.txt
 ```
 
-API documentation: http://127.0.0.1:8000/docs
+### 4. Configure environment variables
 
-Health check: http://127.0.0.1:8000/health
+Create a local `.env` file in the project root and configure the MongoDB connection string and database name using the variable names expected by the application.
 
-## Sample Data
+Example:
 
-If MongoDB is running and `.env` is configured, load the provided sample records with:
-
-```powershell
-python sample_seed.py
+```env
+MONGO_URI=your_mongodb_connection_string
+MONGO_DB=your_database_name
 ```
 
-## Tests
+Replace the example values with your own credentials. **Never commit `.env` or expose database credentials publicly.**
 
-Run the available tests with:
+### 5. Run the API
 
-```powershell
-python -m pytest -v
+```bash
+uvicorn app.main:app --reload
 ```
 
-## API Features
+Open the interactive API documentation:
 
-- Employee creation and paginated listing
-- Attendance punch-in, punch-out, and listing
-- Manual attendance regularization with audit history
-- Monthly employee and department analytics
-- Late-comers leaderboard
-- Daily department attendance trends
-- MongoDB execution-plan inspection
+- Swagger UI: http://127.0.0.1:8000/docs
+- OpenAPI schema: http://127.0.0.1:8000/openapi.json
 
-## Submission
+## Run Tests
 
-Submit a public Git repository containing `app/main.py`, `requirements.txt`, `REVIEW.md`, `DECISIONS.md`, and this README.
+```bash
+python -m pytest -q
+```
 
-Do not commit `.env`, credentials, or other secrets.
+The current test suite passes **10 tests**.
+
+## Engineering Decisions
+
+See [DECISIONS.md](DECISIONS.md) for implementation choices and [DATA_MODEL.md](DATA_MODEL.md) for the data model. The review notes are available in [REVIEW.md](REVIEW.md).
+
+## Security Notes
+
+- Store database credentials in environment variables.
+- Keep `.env` and virtual environment files out of version control.
+- Use restricted database credentials and network access rules for deployment.
+- Configure production secrets and access controls before exposing the API publicly.
+
+## Future Improvements
+
+- Automated CI test execution
+- Production deployment and monitoring
+- Expanded integration and concurrency tests
+- Authentication and role-based access control, if required by the use case
+
+## Author
+
+**Vishnuvardhan Reddy Tavutu**
+
+[GitHub Repository](https://github.com/vishnuvardhanreddytavutu/hrone-employee-attendance-api)
